@@ -176,273 +176,96 @@ message = input("Enter message: ")
 key = int(input("Enter no of position to shift: "))
 
 # Prepare the secret_message
-secretMessage = ""
+encodedCode = ""
+decodedCode = ""
 
-# Cycle through each character in message
+# mechanism for encoding
 for character in message:
+    if character.isupper():
+        encodedCode += chr(((ord(character) + key - 65) % 26) + 65)
 
-# If character is a letter:
-    if character.isalpha():
-
-        # If character is upper case
-        if character.isupper():
-        # Check if the character is larger then Z:
-            if ord(character) >= 90:
-
-            # Subtract 26 from the letter
-                newCharacterCode = ord(character) - 26 + key
-                secretMessage += chr(newCharacterCode)
-
-        # Else if the character is smaller then A:
-            elif ord(character) < 65:
-
-            # Add 26 to the letter
-                newCharacterCode = ord(character) + 26 + key
-                secretMessage += chr(newCharacterCode)
-
-        # Else encode the character
-            else:
-                newCharacterCode = ord(character) + key
-                secretMessage += chr(newCharacterCode)
-
-        # If character is lower case
-        elif character.islower():
-
-            # If character is smaller then a then add 26 to it
-            if ord(character) < 97:
-
-                newCharacterCode = ord(character) + 26 + key
-                secretMessage += chr(newCharacterCode)
-
-            # Else if character is larger then z then subtract 26 from it.
-            elif ord(character) >= 122:
-
-                newCharacterCode = ord(character) - 26 + key
-                secretMessage += chr(newCharacterCode)
-
-            # Else encode the character
-            else:
-
-                newCharacterCode = ord(character) + key
-                secretMessage += chr(newCharacterCode)
+    elif character.islower():
+        encodedCode += chr(((ord(character) + key - 97) % 26) + 97)
 
 
-# If the character is not a letter
     else:
-
-    # then keep it as it is
-        secretMessage += character
+        encodedCode += character
 
 
-# Create an decrypted variable to hold original message
-decrypted = ""
+# mechanism for decoding
+for character in encodedCode:
+    if character.isupper():
+        decodedCode += chr(((ord(character) - key - 65) % 26) + 65)
 
-# Convert Secret message back to original message
-for character in secretMessage:
-
-# If character is a letter:
-    if character.isalpha():
-
-        # If character is upper case
-        if character.isupper():
-        # Check if the character is larger then Z:
-            if ord(character) >= 90:
-
-            # Subtract 26 from the letter
-                newCharacterCode = ord(character) - 26 - key
-                decrypted += chr(newCharacterCode)
-
-        # Else if the character is smaller then A:
-            elif ord(character) < 65:
-
-            # Add 26 to the letter
-                newCharacterCode = ord(character) + 26 - key
-                decrypted += chr(newCharacterCode)
-
-        # Else encode the character
-            else:
-                newCharacterCode = ord(character) - key
-                decrypted += chr(newCharacterCode)
-
-        # If character is lower case
-        elif character.islower():
-
-            # If character is smaller then a then add 26 to it
-            if ord(character) < 97:
-
-                newCharacterCode = ord(character) + 26 - key
-                decrypted += chr(newCharacterCode)
-
-            # Else if character is larger then z then subtract 26 from it.
-            elif ord(character) >= 122:
-
-                newCharacterCode = ord(character) - 26 - key
-                decrypted += chr(newCharacterCode)
-
-            # Else encode the character
-            else:
-
-                newCharacterCode = ord(character) - key
-                decrypted += chr(newCharacterCode)
+    elif character.islower():
+        decodedCode += chr(((ord(character) - key - 97) % 26) + 97)
 
 
-# If the character is not a letter
     else:
-
-    # then keep it as it is
-        decrypted += character
+        decodedCode += character
 
 
+# Print encoded and decoded
+print("Encrypted Message:", encodedCode)
+print("Decrypted Message:", decodedCode)
 
-# print encrypted and decrypted on screen
-print("Encrypted:", secretMessage)
-print("Decrypted:", decrypted)
-
-
-# ======================================================
-# print some blank lines
-print("\n\n\n\n\n\n\n\n")
 
 
 # =========================================================
 # Create a Caesar cipher. Encryption program by seperating code in functions
-
 def encrypt_message(message, key):
-    # Do the encryption
-    secretMessage = ""
+    # Create a variable to store code
+    code = ""
 
-    # Cycle through each character in message
     for character in message:
+        if character.isupper():
+            code += chr(((ord(character) + key - 65) % 26) + 65)
 
-        # If character is a letter:
-        if character.isalpha():
-
-            # If character is upper case
-            if character.isupper():
-                # Check if the character is larger then Z:
-                if ord(character) >= 90:
-
-                    # Subtract 26 from the letter
-                    newCharacterCode = ord(character) - 26 + key
-                    secretMessage += chr(newCharacterCode)
-
-                # Else if the character is smaller then A:
-                elif ord(character) < 65:
-
-                    # Add 26 to the letter
-                    newCharacterCode = ord(character) + 26 + key
-                    secretMessage += chr(newCharacterCode)
-
-                # Else encode the character
-                else:
-                    newCharacterCode = ord(character) + key
-                    secretMessage += chr(newCharacterCode)
-
-            # If character is lower case
-            elif character.islower():
-
-                # If character is smaller then a then add 26 to it
-                if ord(character) < 97:
-
-                    newCharacterCode = ord(character) + 26 + key
-                    secretMessage += chr(newCharacterCode)
-
-                # Else if character is larger then z then subtract 26 from it.
-                elif ord(character) >= 122:
-
-                    newCharacterCode = ord(character) - 26 + key
-                    secretMessage += chr(newCharacterCode)
-
-                # Else encode the character
-                else:
-
-                    newCharacterCode = ord(character) + key
-                    secretMessage += chr(newCharacterCode)
+        elif character.islower():
+            code += chr(((ord(character) + key - 97) % 26) + 97)
 
 
-        # If the character is not a letter
         else:
-
-            # then keep it as it is
-            secretMessage += character
-
-    # Return encrypted
-    return secretMessage
+            code += character
 
 
+    return code
 
 def decrypt_message(message, key):
-    # Do the decryption
-    decrypted = ""
+    # Create a variable to store code
+    code = ""
 
-    # Convert Secret message back to original message
     for character in message:
+        if character.isupper():
+            code += chr(((ord(character) - key - 65) % 26) + 65)
 
-        # If character is a letter:
-        if character.isalpha():
-
-            # If character is upper case
-            if character.isupper():
-                # Check if the character is larger then Z:
-                if ord(character) >= 90:
-
-                    # Subtract 26 from the letter
-                    newCharacterCode = ord(character) - 26 - key
-                    decrypted += chr(newCharacterCode)
-
-                # Else if the character is smaller then A:
-                elif ord(character) < 65:
-
-                    # Add 26 to the letter
-                    newCharacterCode = ord(character) + 26 - key
-                    decrypted += chr(newCharacterCode)
-
-                # Else encode the character
-                else:
-                    newCharacterCode = ord(character) - key
-                    decrypted += chr(newCharacterCode)
-
-            # If character is lower case
-            elif character.islower():
-
-                # If character is smaller then a then add 26 to it
-                if ord(character) < 97:
-
-                    newCharacterCode = ord(character) + 26 - key
-                    decrypted += chr(newCharacterCode)
-
-                # Else if character is larger then z then subtract 26 from it.
-                elif ord(character) >= 122:
-
-                    newCharacterCode = ord(character) - 26 - key
-                    decrypted += chr(newCharacterCode)
-
-                # Else encode the character
-                else:
-
-                    newCharacterCode = ord(character) - key
-                    decrypted += chr(newCharacterCode)
+        elif character.islower():
+            code += chr(((ord(character) - key - 97) % 26) + 97)
 
 
-        # If the character is not a letter
         else:
-
-            # then keep it as it is
-            decrypted += character
-
-    # Return the decrypted back
-    return decrypted
+            code += character
 
 
+    return code
 
-# Ask user for input
-message = input("Enter message to encrypt: ")
-key = int(input("Enter no of positions to shift: "))
 
-# Call encrypt and decrypt message to store the results
-encrypted = encrypt_message(message, key)
-decrypted = decrypt_message(encrypted, key)
+def main():
+    # Ask user for input
+    message = input("Enter message: ")
+    key = int(input("Enter no of characters to shift: "))
 
-# Print the result
-print("Encrypted Message:", encrypted)
-print("Decrypted Message:", decrypted)
+    # Encrypt message
+    encrypted = encrypt_message(message, key)
+
+    # Decrypt message
+    decrypted = decrypt_message(encrypted, key)
+
+    # Print the encrypted message
+    print("Encrypted Message:", encrypted)
+    print("Decrypted Message:", decrypted)
+
+
+
+if __name__ == '__main__':
+    main()
