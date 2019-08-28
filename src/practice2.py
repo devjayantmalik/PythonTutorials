@@ -1,3 +1,4 @@
+
 # ===========================================================
 # Ask user to enter first name and last name seperated by spaces
 # Then create an empty list
